@@ -2,7 +2,6 @@ import os
 import random
 import discord
 from dotenv import load_dotenv
-
 from discord.ext import commands
 
 load_dotenv()
@@ -12,15 +11,18 @@ print(TOKEN)
 print(GUILD)
 
 client = discord.Client(intents=discord.Intents.all())
-
-
-status = discord.Status.dnd
-activity = discord.Activity(type=discord.ActivityType.listening, name="!help | Lyx Bot  ")
-
-
 intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix="!", intents=intents, status=status, activity=activity)
+# Profile status
+status = discord.Status.dnd
+activity = discord.Activity(type=discord.ActivityType.listening,
+                            name="!help | Lyx Bot  ")
+
+
+bot = commands.Bot(command_prefix="!",
+                   intents=intents,
+                   status=status,
+                   activity=activity)
 
 
 @bot.event
@@ -28,7 +30,9 @@ async def on_ready():
     print(f'{bot.user.name} has connected to Discord!')
 
 
-@bot.command(name="dice", help="Enter amount of rolls and sides")
+# Bot commands
+@bot.command(name="dice",
+             help="Enter amount of rolls and sides")
 async def roll(ctx, number_of_dice: int, number_of_sides: int):
     dice = [
         str(random.choice(range(1, number_of_sides + 1)))
@@ -37,7 +41,8 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
     await ctx.send(", ".join(dice))
 
 
-@bot.command(name="coinflip", help="Flip a coin")
+@bot.command(name="coinflip",
+             help="Flip a coin")
 async def coin(ctx):
     coinflip = [
         random.choice(("Heads", "Tails"))
