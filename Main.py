@@ -49,5 +49,12 @@ async def coin(ctx):
     ]
     await ctx.send("".join(coinflip))
 
+@bot.command(name="rate",
+             help="Rate your cuteness")
+async def rate(ctx):
+    ratecuteness = [
+        str(random.choice((1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
+    ]
+    await ctx.send("You're a " + "".join(ratecuteness) + " on the cuteness scale!")
 
 bot.run(TOKEN)
