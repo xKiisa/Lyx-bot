@@ -38,23 +38,26 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
         str(random.choice(range(1, number_of_sides + 1)))
         for _ in range(number_of_dice)
     ]
-    await ctx.send(", ".join(dice))
+    await ctx.send(ctx.message.author.mention + " rolled " + ", ".join(dice) + "!")
 
 
 @bot.command(name="coinflip",
              help="Flip a coin")
 async def coin(ctx):
     coinflip = [
-        random.choice(("Heads", "Tails"))
+        random.choice((" Heads", " Tails"))
     ]
-    await ctx.send("".join(coinflip))
+    await ctx.send(ctx.message.author.mention + "".join(coinflip) + "!")
+
 
 @bot.command(name="rate",
              help="Rate your cuteness")
-async def rate(ctx):
+async def rate(ctx, *, member: discord.Member = None):
+    if member is None:
+        member = ctx.author
     ratecuteness = [
         str(random.choice((1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
     ]
-    await ctx.send("You're a " + "".join(ratecuteness) + " on the cuteness scale!")
+    await ctx.send(member.mention + " is a " + "".join(ratecuteness) + " on the cuteness scale!")
 
 bot.run(TOKEN)
