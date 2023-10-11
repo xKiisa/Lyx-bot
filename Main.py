@@ -56,8 +56,8 @@ async def rate(ctx, *, member: discord.Member = None):
     if member is None:
         member = ctx.author
     ratecuteness = [
-        str(random.choice((1, 2, 3, 4, 5, 6, 7, 8, 9, 10)))
+        str(random.choice(("a 1", "a 2", "a 3", "a 4", "a 5", "a 6", "a 7", "an 8", "a 9", "a 10")))
     ]
-    await ctx.send(member.mention + " is a " + "".join(ratecuteness) + " on the cuteness scale!")
+    await ctx.send(member.mention + " is " + "".join(ratecuteness) + " on the cuteness scale!")
 
 bot.run(TOKEN)
