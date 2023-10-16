@@ -1,14 +1,15 @@
 import os
-import random
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 
 load_dotenv()
-TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
+TOKEN = os.getenv("DISCORD_TOKEN")
+GUILD = os.getenv("DISCORD_GUILD")
+owner_id = os.getenv("OWNER")
 print(TOKEN)
 print(GUILD)
+print(owner_id)
 
 client = discord.Client(intents=discord.Intents.all())
 intents = discord.Intents.all()
@@ -18,73 +19,24 @@ status = discord.Status.dnd
 activity = discord.Activity(type=discord.ActivityType.listening,
                             name="!help | Lyx Bot  ")
 
-
 bot = commands.Bot(command_prefix="!",
+                   case_insensitive=True,
                    intents=intents,
                    status=status,
                    activity=activity)
 
+extensions = [
+    "commands.fun",
+    "commands.games",
+    "commands.misc",
+]
+
 
 @bot.event
 async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
-
-
-# Bot commands
-@bot.command(name="dice",
-             help="Enter amount of rolls and sides")
-async def roll(ctx, number_of_dice: int, number_of_sides: int):
-    dice = [
-        str(random.choice(range(1, number_of_sides + 1)))
-        for _ in range(number_of_dice)
-    ]
-    await ctx.send(ctx.message.author.mention + " rolled " + ", ".join(dice) + "!")
-
-
-@bot.command(name="coinflip",
-             help="Flip a coin")
-async def coin(ctx):
-    coinflip = [
-        random.choice((" Heads", " Tails"))
-    ]
-    await ctx.send(ctx.message.author.mention + "".join(coinflip) + "!")
-
-
-@bot.command(name="rate",
-             help="Rate your cuteness")
-async def rate(ctx, *, member: discord.Member = None):
-    if member is None:
-        member = ctx.author
-    ratecuteness = [
-        str(random.choice(("a 1", "a 2", "a 3", "a 4", "a 5", "a 6", "a 7", "an 8", "a 9", "a 10")))
-    ]
-    await ctx.send(member.mention + " is " + "".join(ratecuteness) + " on the cuteness scale!")
-
-
-@bot.command(name="rps",
-             help="Rock Paper Scissors")
-async def rps(ctx, *, member_choice=None):
-    choices = ["rock", "paper", "scissors"]
-    bot_choice = random.choice(choices)
-    member_choice = member_choice.lower()
-
-    if member_choice == bot_choice:
-        await ctx.send(ctx.message.author.mention + f" it's a tie! we both got **{bot_choice}**.")
-
-    elif member_choice == "rock" and bot_choice == "scissors" \
-            or member_choice == "scissors" and bot_choice == "paper" \
-            or member_choice == "paper" and bot_choice == "rock":
-        await ctx.send(ctx.message.author.mention + f" You picked **{member_choice}** "
-                                                    f"and I picked **{bot_choice}**!\n You won!")
-
-    elif (member_choice == "scissors" and bot_choice == "rock") \
-            or (member_choice == "paper" and bot_choice == "scissors") \
-            or (member_choice == "rock" and bot_choice == "paper"):
-        await ctx.send(ctx.message.author.mention + f" You picked **{member_choice}** "
-                                                    f"and I picked **{bot_choice}**!\n You lost!")
-    else:
-        await ctx.send(ctx.message.author.mention + " Something went wrong. "
-                                                    "Please enter one of the following\n `rock`, `paper`, `scissors`")
+    print(f"{bot.user.name} has connected to Discord!")
+    for extension in extensions:
+        await bot.load_extension(extension)
 
 
 bot.run(TOKEN)
