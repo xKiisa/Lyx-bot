@@ -12,8 +12,8 @@ class Misc(commands.Cog):
 
     @commands.command()
     async def owner(self, ctx):
-        """ Shows the bot owners ID"""
-        await ctx.send(ctx.message.author.mention + f" The ID of the bot owner is: `{owner_id}`")
+        ''' "Shows the bot owners ID" '''
+        await ctx.send(f"{ctx.message.author.mention} The ID of the bot owner is: `{owner_id}`")
 
 
 async def setup(bot):
